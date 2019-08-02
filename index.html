@@ -9,6 +9,8 @@
 
   <ul id="messages"></ul>
 
+  <h1>Presence channel members count: <span id="presence-count">0</span></h1>
+
   <script src="https://js.pusher.com/4.4/pusher.min.js"></script>
 
   <script src="./secrets.js"></script>
@@ -25,7 +27,13 @@
     var pusher = new Pusher(APP_KEY, {
       cluster: CLUSTER,
       forceTLS: true,
+      authTransport: 'jsonp',
+      authEndpoint: `${SERVER_URL}/pusher/auth`,
     });
+  </script>
+
+  <script>
+    // Public channel example
 
     var channel = pusher.subscribe('my-channel');
 
@@ -33,6 +41,29 @@
       var msg = document.createElement('li');
       msg.innerHTML = data.message;
       document.getElementById('messages').appendChild(msg);
+    });
+  </script>
+
+  <script>
+    // Presence channel example
+
+    var presenceChannel = pusher.subscribe('presence-channel');
+
+    function updateMembersCount() {
+      membersCount = presenceChannel.members.count;
+      document.getElementById('presence-count').innerHTML = membersCount;
+    }
+
+    presenceChannel.bind('pusher:subscription_succeeded', function() {
+      updateMembersCount();
+    });
+
+    presenceChannel.bind('pusher:member_added', function() {
+      updateMembersCount();
+    });
+
+    presenceChannel.bind('pusher:member_removed', function() {
+      updateMembersCount();
     });
   </script>
 </body>
