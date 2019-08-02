@@ -16,3 +16,5 @@ Visit https://pusher.com to get familiar with the Pusher.
 8) Run ``python main.py`` and note what's going on with the pages content. It
    should add a new message under the "Pusher Sandbox" text. Run it multiple
    times.
+9) You can also run ``python presence_channel_info.py`` to print the
+   presence-channel info.
