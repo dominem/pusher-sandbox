@@ -7,6 +7,8 @@
 <body>
   <h1>Pusher Sandbox</h1>
 
+  <ul id="messages"></ul>
+
   <script src="https://js.pusher.com/4.4/pusher.min.js"></script>
 
   <script src="./secrets.js"></script>
@@ -28,7 +30,9 @@
     var channel = pusher.subscribe('my-channel');
 
     channel.bind('my-event', function(data) {
-      alert(JSON.stringify(data));
+      var msg = document.createElement('li');
+      msg.innerHTML = data.message;
+      document.getElementById('messages').appendChild(msg);
     });
   </script>
 </body>
